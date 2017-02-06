@@ -1,0 +1,7 @@
+{
+  "itemDisplayName": "Deploy Azure Managed Disk Linux Virtual Machines.",
+  "description": "This template allows you to deploy Azure Managed Disk Linux Virtual Machines.",
+  "summary": "This template takes a minimum amount of parameters and deploys Azure Managed Disk Linux Virtual Machines.",
+  "githubUsername": "prehley",
+  "dateUpdated": "2017-02-06"
+}
