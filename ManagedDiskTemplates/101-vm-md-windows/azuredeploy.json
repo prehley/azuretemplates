@@ -153,9 +153,6 @@
 		"[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
       ],
       "properties": {
-        "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', 'availabilitySet1')]"
-        },
         "hardwareProfile": {
           "vmSize": "[variables('vmSize')]"
         },
