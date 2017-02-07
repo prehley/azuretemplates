@@ -6,6 +6,12 @@
       "type": "int",
       "defaultValue": 2
     },
+    "vmName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name for the Virtual Machine."
+      }
+    },
     "adminUsername": {
       "type": "string",
       "metadata": {
@@ -30,15 +36,14 @@
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
 	"imageSku": "14.04.2-LTS",
-    "nicName": "mynic",
+    "nicName": "[concat(parameters('vmName'),'-nic')]",
     "addressPrefix": "10.0.0.0/8",
-    "subnetName": "Subnet11",
+    "subnetName": "[concat(parameters('vmName'),'-subnet')]",
     "subnetPrefix": "10.0.0.0/16",
-    "publicIPAddressName": "myip",
+    "publicIPAddressName": "[concat(parameters('vmName'),'-ip')]",
     "publicIPAddressType": "Dynamic",
-    "vmName": "mdLinuxVM",
     "vmSize": "Standard_D2_V2",
-    "virtualNetworkName": "myvnet",
+    "virtualNetworkName": "[concat(parameters('vmName'),'-vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
 	"storageAccountName": "[concat(uniquestring(resourceGroup().id),'storage')]",
@@ -74,17 +79,6 @@
             }
           }
         ]
-      }
-    },
-    {
-      "type": "Microsoft.Compute/availabilitySets",
-      "name": "availabilitySet1",
-      "apiVersion": "[variables('computeResouresApiVersion')]",
-      "location": "[variables('location')]",
-      "properties": {
-        "platformFaultDomainCount": "2",
-        "platformUpdateDomainCount": "2",
-        "managed": "true"
       }
     },
     {
@@ -136,7 +130,7 @@
     {
       "apiVersion": "[variables('computeResouresApiVersion')]",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('vmName'), copyindex())]",
+      "name": "[concat(parameters('vmName'), copyindex())]",
       "location": "[variables('location')]",
 	  "copy": {
         "name": "VMLoop",
@@ -148,14 +142,11 @@
 		"[concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))]"
       ],
       "properties": {
-        "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', 'availabilitySet1')]"
-        },
         "hardwareProfile": {
           "vmSize": "[variables('vmSize')]"
         },
         "osProfile": {
-          "computerName": "[concat(variables('vmName'), copyindex())]",
+          "computerName": "[concat(parameters('vmName'), copyindex())]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
