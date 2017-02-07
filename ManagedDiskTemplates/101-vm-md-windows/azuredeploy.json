@@ -57,6 +57,7 @@
     "virtualNetworkName": "[concat(parameters('vmName'),'-vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+    "storageAccountName": "[concat(uniquestring(resourceGroup().id),'storage')]",
     "apiVersion": "2015-06-15",
     "computeResouresApiVersion": "2016-04-30-preview"
   },
